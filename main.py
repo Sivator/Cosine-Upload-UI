@@ -1,6 +1,4 @@
 import tkinter as tk
-import subprocess
-import threading
 from tkinter import filedialog
 from coscine_upload import upload_coscine
 from tkcalendar import DateEntry
@@ -10,7 +8,36 @@ token = ""
 file_path =""
 
 def upload_call():
-    print("test")
+    if project_name_entry.get() == "":
+        print("Project name is empty")
+        return
+    elif resource_entry.get() == "":
+        print("Resource name is empty")
+        return
+    elif title_entry.get() == "":
+        print("Title is empty")
+        return
+    elif name_entry.get() == "":
+        print("Name is empty")
+        return
+    elif cal.get_date() == "":
+        print("Date is empty")
+        return
+    elif supervisor_entry.get() == "":
+        print("Supervisor is empty")
+        return
+    elif reviewer_entry.get() == "":
+        print("Reviewer is empty")
+        return
+    elif studycoursefield_entry.get() == "":
+        print("Study course field is empty")
+        return
+    elif project_entry.get()== "":  
+        print("Project is empty")
+        return
+    elif location_entry.get() == "":
+        print("Location is empty")   
+        return
     upload_coscine(token,file_path, project_name_entry.get(), resource_entry.get(), title_entry.get(),name_entry.get(),cal.get_date(), supervisor_entry.get(), reviewer_entry.get(), studycoursefield_entry.get(), project_entry.get(), location_entry.get(), institute_entry.get(), degree_variable.get(), archivist_entry.get(), working_groups_entry.get(), organism_entry.get(),methodology_entry.get(), methodology_entry.get(), partners_entry.get(),abstract_text.get("1.0",'end-1c'))
 
 
@@ -22,30 +49,35 @@ def read_token():
         global token
         token = fd.read()
         fd.close()
-    
+
 def find_file():
     global file_path
     file_path= filedialog.askopenfilename(title = "Select A File", filetypes =[("PDF Files","*.pdf")])
 
-def settings_window():
+
+def settings_window_f():    
     settings_window = tk.Toplevel(root)
     settings_window.title("Settings")
-    settings_window.geometry("250x200")
+    settings_window.geometry("200x200")
+
     global project_name_entry
     project_name_label = tk.Label(settings_window, text="Project Name:")
-    project_name_label.grid(column=0, row=0,padx='5', pady='5', sticky='ew',columnspan=2)
+    project_name_label.grid(column=1, row=0, padx='5', pady='5', sticky='ew', columnspan=2)
+
     project_name_entry = tk.Entry(settings_window)
-    project_name_entry.grid(column=0,row=1,padx='5', pady='5', sticky='ew',columnspan=2)
+    project_name_entry.grid(column=1, row=1, padx='5', pady='5', sticky='ew', columnspan=2)
     project_name_entry.insert(-1, "iAMB-Theses & Reports")
+
     global resource_entry
-    resource_label = tk.Label(settings_window, text= "Recource Name:")
-    resource_label.grid(column=0,row=2,padx='5', pady='5', sticky='ew',columnspan=2)
+    resource_label = tk.Label(settings_window, text="Resource Name:")
+    resource_label.grid(column=1, row=2, padx='5', pady='5', sticky='ew', columnspan=2)
+
     resource_entry = tk.Entry(settings_window)
-    resource_entry.grid(column=0,row=3,padx='5', pady='5', sticky='ew',columnspan=2)
+    resource_entry.grid(column=1, row=3, padx='5', pady='5', sticky='ew', columnspan=2)
     resource_entry.insert(-1, "Thesis and Reports")
-    #saving the token file location has yet to be implemented
+
     token_button = tk.Button(settings_window, text="Token Location", command=read_token)
-    token_button.grid(column=0,row=4,padx='5', pady='5', sticky='ew',columnspan=2)
+    token_button.grid(column=1, row=4, padx='5', pady='5', sticky='ew', columnspan=2)
 
 root = tk.Tk()
 root.title("Coscine Uploader")
@@ -94,10 +126,10 @@ institute_entry = tk.Entry(root)
 institute_entry.grid(column=1,row=1,padx='5', pady='5', sticky='ew')
 
 degree_variable = tk.StringVar(root)
-degree_variable.set("Research intern")
+degree_variable.set("Research Intern")
 degree_label = tk.Label(root, text="Degree:")
 degree_label.grid(column=0, row=14,padx='5', pady='5', sticky='ew')
-degree_entry = tk.OptionMenu(root, degree_variable, "B.Sc.", "M.Sc.", "Research intern")
+degree_entry = tk.OptionMenu(root, degree_variable, "B.Sc.", "M.Sc.", "Research Intern")
 degree_entry.grid(column=0,row=15,padx='5', pady='5', sticky='ew')
 
 archivist_label = tk.Label(root, text=" Archivist:")
@@ -108,15 +140,15 @@ archivist_entry.grid(column=1, row=3,padx='5', pady='5', sticky='ew')
 working_groups_label = tk.Label(root, text="Sub-working group(s):")
 working_groups_label.grid(column=1, row=4,padx='5', pady='5', sticky='ew')
 working_groups_entry = tk.Entry(root)
-working_groups_entry.grid(column=1, row=5,padx='5', pady='5', sticky='ew')#muss noch übergeben werden!
+working_groups_entry.grid(column=1, row=5,padx='5', pady='5', sticky='ew')
 
 abstract_label = tk.Label(root, text="Abstract:")
 abstract_label.grid(column=0, row=16,padx='5', pady='5', sticky='ew',columnspan=2)
 abstract_text = tk.Text(root, height = 5, width = 52)
-abstract_text.grid(column=0, row=17,padx='5', pady='5', sticky='ew',columnspan=2)#muss noch übergeben werden!
+abstract_text.grid(column=0, row=17,padx='5', pady='5', sticky='ew',columnspan=2)
 
 organism_label =tk.Label(root, text="Organism:")
-organism_label.grid(column=1, row=6,padx='5', pady='5', sticky='ew')#muss noch übergeben werden!
+organism_label.grid(column=1, row=6,padx='5', pady='5', sticky='ew')
 organism_entry = tk.Entry(root)
 organism_entry.grid(column=1, row=7,padx='5', pady='5', sticky='ew')
 
@@ -147,7 +179,6 @@ file_button.grid(column=0,row=18,padx='5', pady='5', sticky='ew',columnspan=2)
 upload_button = tk.Button(root, text="Upload", command=upload_call)
 upload_button.grid(column=0,row=19,padx='5', pady='5', sticky='ew',columnspan=2)
 
-settings_button = tk.Button(root, text="Coscine Settings", command=settings_window)
+settings_button = tk.Button(root, text="Coscine Settings", command=settings_window_f)
 settings_button.grid(column=0,row=20,padx='5', pady='5', sticky='ew',columnspan=2)
-
 root.mainloop()
